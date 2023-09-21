@@ -90,7 +90,7 @@ def simulate(i):
 
     return count_genes(random_bunch), count_genes(incest_bunch), count_genes(non_incest_bunch)
 
-gencount = 1000
+gencount = 10000
 
 if __name__ == "__main__":
     with multiprocessing.Pool() as pool:
