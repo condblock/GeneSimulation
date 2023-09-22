@@ -1,18 +1,32 @@
 import random
 import multiprocessing
 from tqdm import tqdm
+from datetime import datetime
+
+dt = datetime.now()
+
+# 랜덤 시드
+random.seed(dt.microsecond)
 
 # 유전자 변이 확률
-mutation_rate = 0.001
+mutation_rate = 0.1
 
 # 초기 유전자
 initial_gene = [0, 0]
 
+def seeding():
+    global dt
+    dt = datetime.now()
+    # 랜덤 시드
+    random.seed(dt.microsecond)
+    
 def mutate(gene):
+    seeding()
     """주어진 확률로 유전자 변이"""
     return [1 if random.random() < mutation_rate else g for g in gene]
 
 def breed(parents):
+    seeding()
     """부모로부터 자손 생성"""
     child_gene = [random.choice([parents[0][i], parents[1][i]]) for i in range(2)]
     return mutate(child_gene)
@@ -58,6 +72,7 @@ def simulate(i):
     incest_bunch=[]
    
     for j in range(num_pairs//4):
+        seeding()
         incest_bunch.append(breed([random_bunch[j*4], random_bunch[j*4+1]]))
         incest_bunch.append(breed([random_bunch[(j*4+2)%num_pairs], random_bunch[(j*4+3)%num_pairs]]))
         incest_bunch.append(breed([random_bunch[(j*4+4)%num_pairs], random_bunch[(j*4+5)%num_pairs]]))
@@ -100,7 +115,7 @@ if __name__ == "__main__":
     print("근친혼 그룹")
     zero_ones_incest, one_ones_incest,two_ones_incest= zip(*results_incest_bunc)
     print(f"이상 유전자 0개: {sum(zero_ones_incest)}, 이상 유전자 1개:{sum(one_ones_incest)}, 이상 유전자 2개:{sum(two_ones_incest)}")
-
+    print()
     print("근친혼 금지 그룹")
     zeroOnesNonInc ,oneOneNonInc,twoOneNonInc= zip(*results_non_inc)
     print(f"이상 유전자 0개: {sum(zeroOnesNonInc)}, 이상 유전자 1개:{sum(oneOneNonInc)}, 이상 유전자 2개:{sum(twoOneNonInc)}")
