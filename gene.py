@@ -3,7 +3,7 @@ import multiprocessing
 from tqdm import tqdm
 
 # 유전자 변이 확률
-mutation_rate = 0.001
+mutation_rate = 0.0001
 
 # 초기 유전자
 initial_gene = [0, 0]
@@ -90,7 +90,7 @@ def simulate(i):
 
     return count_genes(random_bunch), count_genes(incest_bunch), count_genes(non_incest_bunch)
 
-gencount = 1000
+gencount = 10000
 
 if __name__ == "__main__":
     with multiprocessing.Pool() as pool:
